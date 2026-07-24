@@ -4,6 +4,7 @@ import { AuthProvider } from './AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
+import ForgotPassword from './pages/forgetpassword';
 
 const AdminView = () => (
   <div className="p-8">
@@ -26,10 +27,14 @@ function App() {
         <Routes>
           {/* Public Login Route */}
           <Route path="/login" element={<Login />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/forgetpassword" element={<ForgotPassword />} />
           <Route path="/unauthorized" element={<Unauthorized />} />
 
+        
+
           {/* Protected General Dashboard (Temporarily Unprotected for Preview) */}
-          <Route path="/dashboard" element={<Dashboard />} />
+          {/* <Route path="/dashboard" element={<Dashboard />} /> */}
 
 
 

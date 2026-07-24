@@ -110,16 +110,12 @@ const Login = () => {
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 z-10"
               >
-                {showPassword ? (
-                  <EyeOff className="w-5 h-5" />
-                ) : (
-                  <Eye className="w-5 h-5" />
+                {showPassword ? (<EyeOff className="w-5 h-5" />) : (<Eye className="w-5 h-5" />
+                
                 )}
               </button>
             </div>
           </div>
-  
-
           {/* Submit Button with animated gradient borders */}
           <motion.button
             whileHover={{ scale: 1.02 }}
