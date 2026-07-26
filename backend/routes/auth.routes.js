@@ -26,6 +26,9 @@ const makeLimiter = ({ windowMs, limit, skipSuccessfulRequests = false }) => rat
 const loginLimiter = makeLimiter({ windowMs: 15 * 60 * 1000, limit: 10, skipSuccessfulRequests: true });
 const passwordLimiter = makeLimiter({ windowMs: 15 * 60 * 1000, limit: 10, skipSuccessfulRequests: true });
 const registerLimiter = makeLimiter({ windowMs: 60 * 60 * 1000, limit: 5 });
+// Every request here sends an email, so successful ones must count too —
+// otherwise the endpoint becomes a free mail-bomb relay.
+const forgotPasswordLimiter = makeLimiter({ windowMs: 60 * 60 * 1000, limit: 5 });
 
 const passwordRules = (field = 'password') => body(field)
     .isString()
@@ -75,6 +78,25 @@ router.patch(
     ],
     validate,
     authController.changePassword
+);
+
+router.post(
+    '/forgot-password',
+    forgotPasswordLimiter,
+    [body('email').isEmail().withMessage('A valid email is required').trim().toLowerCase()],
+    validate,
+    authController.forgotPassword
+);
+
+router.post(
+    '/reset-password',
+    passwordLimiter,
+    [
+        body('token').isString().notEmpty().withMessage('Reset token is required'),
+        passwordRules()
+    ],
+    validate,
+    authController.resetPassword
 );
 
 router.post(

@@ -1,5 +1,13 @@
+const crypto = require('crypto');
+const { Op } = require('sequelize');
+
 const User = require('../model/user.model');
 const { signToken, JWT_EXPIRES_IN } = require('../utils/jwt');
+const { sendPasswordResetEmail } = require('../services/mailer.service');
+
+const RESET_TOKEN_TTL_MINUTES = 30;
+
+const hashResetToken = (token) => crypto.createHash('sha256').update(token).digest('hex');
 
 /**
  * POST /api/auth/register
@@ -112,6 +120,86 @@ const logout = async (req, res) => {
 };
 
 /**
+ * POST /api/auth/forgot-password
+ * Always answers 200 with the same message — telling the caller whether an
+ * address is registered would turn this into an account-enumeration oracle.
+ */
+const forgotPassword = async (req, res, next) => {
+    try {
+        const { email } = req.body;
+        const genericResponse = {
+            message: 'If an account exists for that email, a reset link has been sent.'
+        };
+
+        const user = await User.findOne({ where: { email: email.toLowerCase() } });
+        if (!user || !user.isActive) {
+            return res.status(200).json(genericResponse);
+        }
+
+        // The raw token goes in the email; only its hash is persisted.
+        const resetToken = crypto.randomBytes(32).toString('hex');
+        user.resetTokenHash = hashResetToken(resetToken);
+        user.resetTokenExpiresAt = new Date(Date.now() + RESET_TOKEN_TTL_MINUTES * 60 * 1000);
+        await user.save();
+
+        const clientUrl = process.env.CLIENT_URL || 'http://localhost:5173';
+        const resetUrl = `${clientUrl}/reset-password?token=${resetToken}`;
+
+        try {
+            await sendPasswordResetEmail({
+                to: user.email,
+                name: user.name,
+                resetUrl,
+                expiresInMinutes: RESET_TOKEN_TTL_MINUTES
+            });
+        } catch (mailError) {
+            // Don't leave a usable token behind if the email never went out.
+            user.resetTokenHash = null;
+            user.resetTokenExpiresAt = null;
+            await user.save();
+            return next(mailError);
+        }
+
+        return res.status(200).json(genericResponse);
+    } catch (error) {
+        return next(error);
+    }
+};
+
+/**
+ * POST /api/auth/reset-password
+ * Consumes the token from the reset email and sets the new password.
+ */
+const resetPassword = async (req, res, next) => {
+    try {
+        const { token, password } = req.body;
+
+        const user = await User.scope('withResetToken').findOne({
+            where: {
+                resetTokenHash: hashResetToken(token),
+                resetTokenExpiresAt: { [Op.gt]: new Date() }
+            }
+        });
+
+        if (!user) {
+            return res.status(400).json({ message: 'This reset link is invalid or has expired' });
+        }
+
+        user.password = password;
+        // Single use: burn the token so the link cannot be replayed.
+        user.resetTokenHash = null;
+        user.resetTokenExpiresAt = null;
+        await user.save();
+
+        return res.status(200).json({
+            message: 'Password reset successfully, you can now log in'
+        });
+    } catch (error) {
+        return next(error);
+    }
+};
+
+/**
  * POST /api/auth/users — admin-only account creation, the one path that can
  * assign a privileged role.
  */
@@ -138,4 +226,13 @@ const createUser = async (req, res, next) => {
     }
 };
 
-exports = module.exports = { register, login, me, changePassword, logout, createUser };
+exports = module.exports = {
+    register,
+    login,
+    me,
+    changePassword,
+    logout,
+    forgotPassword,
+    resetPassword,
+    createUser
+};

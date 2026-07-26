@@ -51,6 +51,17 @@ const User = db.define('user', {
         allowNull: true
     },
 
+    // Only the SHA-256 of the reset token is stored, so a leaked database dump
+    // cannot be used to reset anyone's password.
+    resetTokenHash: {
+        type: Sequelize.STRING,
+        allowNull: true
+    },
+    resetTokenExpiresAt: {
+        type: Sequelize.DATE,
+        allowNull: true
+    },
+
     createdBy: {
         type: Sequelize.UUID,
         allowNull: true
@@ -63,14 +74,17 @@ const User = db.define('user', {
     // createdAt / updatedAt are managed by Sequelize.
     timestamps: true,
 
-    // Password is never selected unless the `withPassword` scope is used,
-    // so it cannot leak through a controller that forgets to strip it.
+    // Secrets are never selected unless a controller asks for them by scope,
+    // so they cannot leak through code that forgets to strip them.
     defaultScope: {
-        attributes: { exclude: ['password'] }
+        attributes: { exclude: ['password', 'resetTokenHash', 'resetTokenExpiresAt'] }
     },
     scopes: {
         withPassword: {
             attributes: { include: ['password'] }
+        },
+        withResetToken: {
+            attributes: { include: ['resetTokenHash', 'resetTokenExpiresAt'] }
         }
     },
 
@@ -87,10 +101,12 @@ User.prototype.comparePassword = function (plainPassword) {
     return bcrypt.compare(plainPassword, this.password);
 };
 
-// Belt and braces: keep the hash out of any JSON response.
+// Belt and braces: keep secrets out of any JSON response.
 User.prototype.toJSON = function () {
     const values = { ...this.get() };
     delete values.password;
+    delete values.resetTokenHash;
+    delete values.resetTokenExpiresAt;
     return values;
 };
 
