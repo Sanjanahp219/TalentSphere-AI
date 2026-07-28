@@ -30,7 +30,7 @@ const ForgotPassword = () => {
     }
   };
 
-  return (
+return (
     <div className="relative min-h-screen w-full flex items-center justify-center bg-slate-950 text-white overflow-hidden bg-grid-white">
       {/* Aceternity Spotlight Backgrounds */}
       <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="cyan" />
@@ -39,11 +39,11 @@ const ForgotPassword = () => {
       {/* Background Radial Gradient overlay to fade grid edges */}
       <div className="absolute inset-0 bg-slate-950 [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)] pointer-events-none" />
 
-      {/* Main Glassmorphic Animated Reset Card */}
+      {/* Main Glassmorphic Reset Card */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
         className="relative z-10 w-full max-w-md p-8 rounded-3xl border border-slate-800 bg-slate-900 shadow-2xl overflow-hidden"
       >
         {/* Card Header */}
@@ -132,7 +132,7 @@ const ForgotPassword = () => {
               onClick={() => navigate('/login')}
               className="inline-flex items-center gap-2 text-xs font-medium text-cyan-400 hover:text-cyan-300 transition-colors cursor-pointer"
             >
-              <ArrowLeft className="w-3.5 h-3.5" />
+              <ArrowLeft className="w-3.5 h-3.5"/>
               Back to Login
             </button>
           </div>

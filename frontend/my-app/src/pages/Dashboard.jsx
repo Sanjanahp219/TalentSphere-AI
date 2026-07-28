@@ -1,10 +1,11 @@
 import React from 'react';
 import { useAuth } from '../AuthContext';
-import { LogOut, User, Mail, Shield, Briefcase, Code, Award, Calendar } from "lucide-react";
+import { User, Mail, Shield, Briefcase, Code, Award, Calendar } from "lucide-react";
 import { motion } from 'framer-motion';
+import Navbar from '../components/ui/Navbar/navbar';
 
 const Dashboard = () => {
-  const { user, logout } = useAuth(); // Corrected hook usage
+  const { user } = useAuth();
 
   const userSkills = user?.skills || ['React.js', 'Node.js', 'Express.js', 'MongoDB', 'CSS', 'JavaScript'];
   const userProjects = user?.projects || [
@@ -13,28 +14,14 @@ const Dashboard = () => {
   ];
 
   return (
-    <div className="min-h-screen w-full bg-slate-950 text-white p-6 md:p-12 relative overflow-hidden bg-grid-white">
+    <div className="min-h-screen w-full bg-slate-950 text-white relative overflow-hidden bg-grid-white">
       {/* Background glow gradient */}
       <div className="absolute top-0 right-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
-      
-      <div className="relative z-10 max-w-6xl mx-auto space-y-8">
-        
-        {/* Header Bar */}
-        <header className="flex justify-between items-center pb-6 border-b border-slate-800">
-          <div>
-            <h1 className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 to-indigo-400">
-              TalentSphere AI
-            </h1>
-            <p className="text-xs text-slate-400">Workforce Intelligence Portal</p>
-          </div>
-          <button 
-            onClick={logout}
-            className="flex items-center gap-2 px-4 py-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-xl border border-red-500/20 transition-all duration-200"
-          >
-            <LogOut className="w-4 h-4" />
-            <span>Sign Out</span>
-          </button>
-        </header>
+
+      {/* Side Navbar */}
+      <Navbar />
+
+      <main className="ts-main-content relative z-10 space-y-8 p-6 md:p-12">
 
         {/* Welcome Section */}
         <motion.div 
@@ -157,7 +144,7 @@ const Dashboard = () => {
           </div>
 
         </div>
-      </div>
+      </main>
     </div>
   );
 };

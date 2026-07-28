@@ -36,11 +36,11 @@ const Login = () => {
       {/* Background Radial Gradient overlay to fade grid edges */}
       <div className="absolute inset-0 bg-slate-950 [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)] pointer-events-none" />
 
-      {/* Main Glassmorphic Animated Login Card */}
+      {/* Main Glassmorphic Login Card */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
         className="relative z-10 w-full max-w-md p-8 rounded-3xl border border-slate-800 bg-slate-900 shadow-2xl overflow-hidden"
       >
 
