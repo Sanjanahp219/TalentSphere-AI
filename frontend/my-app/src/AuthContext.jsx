@@ -52,6 +52,26 @@ export const AuthProvider = ({ children }) => {
       setLoading(false);
     }
   };
+  // Register handler
+  const register = async (name, email, password) => {
+    setLoading(true);
+    try {
+      const response = await axios.post('/api/auth/register', { name, email, password });
+      const { token, user: userData } = response.data;
+      
+      localStorage.setItem('token', token);
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      setUser(userData);
+      return { success: true };
+    } catch (error) {
+      return { 
+        success: false, 
+        error: error.response?.data?.message || 'Registration failed' 
+      };
+    } finally {
+      setLoading(false);
+    }
+  };
   // Logout handler
   const logout = () => {
     localStorage.removeItem('token');
@@ -59,7 +79,7 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
   };
   return (
-    <AuthContext.Provider value={{ user, loading, isAuthenticated: !!user, login, logout }}>
+    <AuthContext.Provider value={{ user, loading, isAuthenticated: !!user, login, logout, register }}>
       {children}
     </AuthContext.Provider>
   );

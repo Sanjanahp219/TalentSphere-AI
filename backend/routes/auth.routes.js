@@ -1,5 +1,5 @@
 const express = require('express');
-const { body } = require('express-validator');
+const { body, query } = require('express-validator');
 const rateLimit = require('express-rate-limit');
 
 const authController = require('../controllers/auth.controller');
@@ -86,6 +86,13 @@ router.post(
     [body('email').isEmail().withMessage('A valid email is required').trim().toLowerCase()],
     validate,
     authController.forgotPassword
+);
+
+router.get(
+    '/verify-reset-token',
+    [query('token').isString().notEmpty().withMessage('Reset token is required')],
+    validate,
+    authController.verifyResetToken
 );
 
 router.post(

@@ -1,0 +1,552 @@
+/* ==========================================================================
+   TalentSphere AI - Dashboard Custom Design System & Glassmorphic Styling
+   ========================================================================== */
+
+/* Main Container & Layout Grids */
+.ts-dashboard-layout {
+  min-height: 100vh;
+  width: 100%;
+  background-color: #020617; /* Slate 950 */
+  color: #ffffff;
+  position: relative;
+}
+
+.ts-dashboard-header {
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(51, 65, 85, 0.6);
+  padding: 1.5rem;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .ts-dashboard-header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.ts-dashboard-title {
+  font-size: 1.65rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #38bdf8, #818cf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.02em;
+}
+
+/* 4-Column Grid for Summary Cards */
+.ts-summary-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .ts-summary-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .ts-summary-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* 2-Column Split Layout Grids */
+.ts-grid-2-1 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .ts-grid-2-1 {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+.ts-grid-2-equal {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .ts-grid-2-equal {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* 3-Column Equal Grid */
+.ts-grid-3 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  .ts-grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Section Headings */
+.ts-section-heading {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.75rem;
+}
+
+/* ==========================================================================
+   1. Summary Cards Styling
+   ========================================================================== */
+.ts-summary-card {
+  position: relative;
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(51, 65, 85, 0.6);
+  border-radius: 1rem;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.ts-summary-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(99, 102, 241, 0.5);
+  box-shadow: 0 20px 30px -10px rgba(6, 182, 212, 0.15);
+}
+
+.ts-summary-card-accent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #06b6d4, #6366f1);
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.ts-summary-card:hover .ts-summary-card-accent {
+  opacity: 1;
+}
+
+.ts-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.ts-card-label {
+  font-size: 0.725rem;
+  font-weight: 600;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.ts-card-icon-box {
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  flex-shrink: 0;
+}
+
+.ts-card-value {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 0.75rem;
+}
+
+.ts-card-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  border: 1px solid transparent;
+}
+
+.ts-badge-positive {
+  background-color: rgba(6, 182, 212, 0.15);
+  color: #22d3ee;
+  border-color: rgba(6, 182, 212, 0.3);
+}
+
+.ts-badge-neutral {
+  background-color: rgba(99, 102, 241, 0.15);
+  color: #a5b4fc;
+  border-color: rgba(99, 102, 241, 0.3);
+}
+
+.ts-badge-alert {
+  background-color: rgba(245, 158, 11, 0.15);
+  color: #fbbf24;
+  border-color: rgba(245, 158, 11, 0.3);
+}
+
+/* ==========================================================================
+   2. Glass Panel & Simple Graph Chart Styling
+   ========================================================================== */
+.ts-glass-panel {
+  background: rgba(15, 23, 42, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(51, 65, 85, 0.6);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+}
+
+.ts-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+  margin-bottom: 1.25rem;
+}
+
+.ts-panel-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ts-panel-subtitle {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  margin-top: 0.15rem;
+}
+
+/* Simple Visual Graph Chart Styles */
+.ts-graph-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.ts-graph-bars-area {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: 180px;
+  padding-top: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.6);
+  gap: 0.75rem;
+}
+
+.ts-graph-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  height: 100%;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.ts-graph-bar-track {
+  width: 100%;
+  max-width: 36px;
+  height: 100%;
+  background: #020617;
+  border-radius: 0.5rem;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  border: 1px solid rgba(51, 65, 85, 0.6);
+  padding: 2px;
+}
+
+.ts-graph-bar-fill {
+  width: 100%;
+  border-radius: 0.35rem;
+  background: linear-gradient(180deg, #22d3ee, #6366f1);
+  transition: height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ts-graph-bar-fill-alt {
+  background: linear-gradient(180deg, #818cf8, #a855f7);
+}
+
+.ts-graph-label {
+  font-size: 0.725rem;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.ts-graph-value {
+  font-size: 0.7rem;
+  color: #38bdf8;
+  font-weight: 700;
+}
+
+/* Tabs */
+.ts-tabs-container {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: #020617;
+  padding: 0.25rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(51, 65, 85, 0.6);
+}
+
+.ts-tab-btn {
+  padding: 0.35rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #94a3b8;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ts-tab-btn:hover {
+  color: #ffffff;
+}
+
+.ts-tab-active {
+  background: linear-gradient(135deg, #06b6d4, #6366f1);
+  color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(6, 182, 212, 0.3);
+}
+
+/* Horizontal Progress Bars */
+.ts-progress-row {
+  margin-bottom: 1rem;
+}
+
+.ts-progress-label {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin-bottom: 0.35rem;
+}
+
+.ts-progress-bg {
+  height: 0.6rem;
+  width: 100%;
+  background: #020617;
+  border-radius: 9999px;
+  overflow: hidden;
+  border: 1px solid rgba(51, 65, 85, 0.6);
+  padding: 1px;
+}
+
+.ts-progress-fill-cyan {
+  height: 100%;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, #06b6d4, #6366f1);
+  transition: width 0.6s ease-out;
+}
+
+.ts-progress-fill-purple {
+  height: 100%;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, #6366f1, #a855f7);
+  transition: width 0.6s ease-out;
+}
+
+/* Recent Employees List */
+.ts-employee-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.ts-employee-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.65rem 0;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.4);
+}
+
+.ts-employee-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.ts-employee-avatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.9rem;
+  flex-shrink: 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.ts-time-pill {
+  font-size: 0.7rem;
+  color: #94a3b8;
+  background: #020617;
+  padding: 0.25rem 0.6rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(51, 65, 85, 0.6);
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   3. Active Projects & Recent Activities Styling
+   ========================================================================== */
+.ts-project-item {
+  padding: 1rem;
+  border-radius: 0.75rem;
+  background: rgba(2, 6, 23, 0.6);
+  border: 1px solid rgba(51, 65, 85, 0.6);
+  margin-bottom: 0.85rem;
+  transition: border-color 0.2s ease;
+}
+
+.ts-project-item:last-child {
+  margin-bottom: 0;
+}
+
+.ts-project-item:hover {
+  border-color: rgba(99, 102, 241, 0.4);
+}
+
+.ts-activity-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.ts-activity-row:last-child {
+  margin-bottom: 0;
+}
+
+.ts-activity-icon {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 0.65rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border: 1px solid transparent;
+}
+
+/* ==========================================================================
+   4. AI Recommendations & Quick Actions Styling
+   ========================================================================== */
+.ts-ai-panel {
+  background: linear-gradient(135deg, rgba(15, 23, 42, 0.9), rgba(30, 27, 75, 0.4));
+  border: 1px solid rgba(99, 102, 241, 0.3);
+}
+
+.ts-ai-card {
+  padding: 1rem;
+  border-radius: 0.75rem;
+  background: rgba(2, 6, 23, 0.7);
+  border: 1px solid rgba(51, 65, 85, 0.6);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: border-color 0.2s ease;
+}
+
+.ts-ai-card:hover {
+  border-color: rgba(6, 182, 212, 0.4);
+}
+
+.ts-quick-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 0.5rem;
+  border-radius: 0.75rem;
+  background: rgba(2, 6, 23, 0.7);
+  border: 1px solid rgba(51, 65, 85, 0.6);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ts-quick-btn:hover {
+  transform: translateY(-2px);
+  border-color: rgba(6, 182, 212, 0.5);
+  background: rgba(15, 23, 42, 0.9);
+}
+
+.ts-quick-btn-icon {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 0.65rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  margin-bottom: 0.5rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.ts-notification-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+  font-size: 0.775rem;
+  color: #cbd5e1;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.3);
+}
+
+.ts-notification-item:last-child {
+  border-bottom: none;
+}
+
+.ts-notification-dot {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 9999px;
+  background-color: #fbbf24;
+  margin-top: 0.35rem;
+  flex-shrink: 0;
+}
+
+

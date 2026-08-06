@@ -3,7 +3,7 @@ const { Op } = require('sequelize');
 
 const User = require('../model/user.model');
 const { signToken, JWT_EXPIRES_IN } = require('../utils/jwt');
-const { sendPasswordResetEmail } = require('../services/mailer.service');
+const { sendPasswordResetEmail, isConfigured } = require('../services/mailer.service');
 
 const RESET_TOKEN_TTL_MINUTES = 30;
 
@@ -142,7 +142,7 @@ const forgotPassword = async (req, res, next) => {
         user.resetTokenExpiresAt = new Date(Date.now() + RESET_TOKEN_TTL_MINUTES * 60 * 1000);
         await user.save();
 
-        const clientUrl = process.env.CLIENT_URL || 'http://localhost:5173';
+        const clientUrl = process.env.CLIENT_URL || 'http://localhost:3000';
         const resetUrl = `${clientUrl}/reset-password?token=${resetToken}`;
 
         try {
@@ -160,7 +160,42 @@ const forgotPassword = async (req, res, next) => {
             return next(mailError);
         }
 
-        return res.status(200).json(genericResponse);
+        const responsePayload = { ...genericResponse };
+        const isSmtpConfigured = typeof isConfigured === 'function' ? isConfigured() : isConfigured;
+        if (process.env.NODE_ENV === 'development' && !isSmtpConfigured) {
+            responsePayload.resetUrl = resetUrl;
+            responsePayload.resetToken = resetToken;
+        }
+
+        return res.status(200).json(responsePayload);
+    } catch (error) {
+        return next(error);
+    }
+};
+
+/**
+ * GET /api/auth/verify-reset-token
+ * Validates whether a given reset token is valid and unexpired.
+ */
+const verifyResetToken = async (req, res, next) => {
+    try {
+        const { token } = req.query;
+        if (!token) {
+            return res.status(400).json({ valid: false, message: 'Reset token is required' });
+        }
+
+        const user = await User.scope('withResetToken').findOne({
+            where: {
+                resetTokenHash: hashResetToken(token),
+                resetTokenExpiresAt: { [Op.gt]: new Date() }
+            }
+        });
+
+        if (!user) {
+            return res.status(400).json({ valid: false, message: 'This reset link is invalid or has expired' });
+        }
+
+        return res.status(200).json({ valid: true, message: 'Reset token is valid' });
     } catch (error) {
         return next(error);
     }
@@ -233,6 +268,7 @@ exports = module.exports = {
     changePassword,
     logout,
     forgotPassword,
+    verifyResetToken,
     resetPassword,
     createUser
 };

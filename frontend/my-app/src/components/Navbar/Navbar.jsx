@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useAuth } from '../../../AuthContext';
+import { useAuth } from '../../AuthContext';
 import {
   Sparkles,
   LayoutDashboard,
@@ -88,84 +88,81 @@ const Navbar = () => {
           menuOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
         }`}
       >
-        {/* Top Section inside Side Menu */}
-        <div>
-          {/* Header & Toggle Button INSIDE Side Menu */}
-          <div
-            className={`flex items-center pb-4 border-b border-slate-800 ${
-              isCollapsed ? 'flex-col gap-3 justify-center' : 'justify-between'
-            }`}
+        {/* Header & Toggle Button INSIDE Side Menu */}
+        <div
+          className={`flex items-center pb-4 border-b border-slate-800 flex-shrink-0 ${
+            isCollapsed ? 'flex-col gap-3 justify-center' : 'justify-between'
+          }`}
+        >
+          <Link
+            to="/dashboard"
+            className="ts-sidebar-brand"
+            onClick={() => setMenuOpen(false)}
+            title={isCollapsed ? "TalentSphere AI" : ""}
           >
-            <Link
-              to="/dashboard"
-              className="ts-sidebar-brand"
-              onClick={() => setMenuOpen(false)}
-              title={isCollapsed ? "TalentSphere AI" : ""}
-            >
-              <div className="ts-sidebar-brand-icon">
-                <Sparkles className="w-5 h-5 text-white" />
+            <div className="ts-sidebar-brand-icon">
+              <Sparkles className="w-5 h-5 text-white" />
+            </div>
+            {!isCollapsed && (
+              <div>
+                <span className="ts-sidebar-brand-title block truncate">
+                  TalentSphere AI
+                </span>
+                <span className="ts-sidebar-brand-subtitle block truncate">
+                  Workforce Intelligence
+                </span>
               </div>
-              {!isCollapsed && (
-                <div>
-                  <span className="ts-sidebar-brand-title block truncate">
-                    TalentSphere AI
-                  </span>
-                  <span className="ts-sidebar-brand-subtitle block truncate">
-                    Workforce Intelligence
-                  </span>
-                </div>
-              )}
-            </Link>
+            )}
+          </Link>
 
-            {/* Toggle Open/Close Button INSIDE the Side Menu */}
-            <button
-              onClick={() => {
-                if (window.innerWidth < 1024) {
-                  setMenuOpen(false);
-                } else {
-                  setIsCollapsed(!isCollapsed);
-                }
-              }}
-              className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/80 transition-all border border-slate-800/80 flex-shrink-0"
-              title={isCollapsed ? "Expand Side Menu" : "Collapse Side Menu"}
-            >
-              {isCollapsed ? (
-                <ChevronRight className="w-4 h-4" />
-              ) : (
-                <>
-                  <ChevronLeft className="w-4 h-4 hidden lg:block" />
-                  <X className="w-4 h-4 lg:hidden" />
-                </>
-              )}
-            </button>
-          </div>
-
-          {/* Navigation Links inside Side Menu */}
-          <nav className="ts-sidebar-nav mt-4">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              const isActive = location.pathname === item.path;
-
-              return (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  title={isCollapsed ? item.name : ''}
-                  onClick={() => setMenuOpen(false)}
-                  className={`ts-sidebar-link ${isActive ? 'ts-sidebar-link-active' : ''} ${
-                    isCollapsed ? 'ts-sidebar-link-collapsed' : ''
-                  }`}
-                >
-                  <Icon className="w-5 h-5 flex-shrink-0" />
-                  {!isCollapsed && <span>{item.name}</span>}
-                </Link>
-              );
-            })}
-          </nav>
+          {/* Toggle Open/Close Button INSIDE the Side Menu */}
+          <button
+            onClick={() => {
+              if (window.innerWidth < 1024) {
+                setMenuOpen(false);
+              } else {
+                setIsCollapsed(!isCollapsed);
+              }
+            }}
+            className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/80 transition-all border border-slate-800/80 flex-shrink-0"
+            title={isCollapsed ? "Expand Side Menu" : "Collapse Side Menu"}
+          >
+            {isCollapsed ? (
+              <ChevronRight className="w-4 h-4" />
+            ) : (
+              <>
+                <ChevronLeft className="w-4 h-4 hidden lg:block" />
+                <X className="w-4 h-4 lg:hidden" />
+              </>
+            )}
+          </button>
         </div>
 
-        {/* Footer inside Side Menu */}
-        <div className="ts-sidebar-footer">
+        {/* Navigation Links inside Side Menu (Scrollable) */}
+        <nav className="ts-sidebar-nav mt-3 py-1 flex-1 overflow-y-auto min-h-0">
+          {navItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = location.pathname === item.path;
+
+            return (
+              <Link
+                key={item.path}
+                to={item.path}
+                title={isCollapsed ? item.name : ''}
+                onClick={() => setMenuOpen(false)}
+                className={`ts-sidebar-link ${isActive ? 'ts-sidebar-link-active' : ''} ${
+                  isCollapsed ? 'ts-sidebar-link-collapsed' : ''
+                }`}
+              >
+                <Icon className="w-5 h-5 flex-shrink-0" />
+                {!isCollapsed && <span>{item.name}</span>}
+              </Link>
+            );
+          })}
+        </nav>
+
+        {/* Footer inside Side Menu (Pinned at bottom) */}
+        <div className="ts-sidebar-footer flex-shrink-0">
           {user ? (
             <>
               <div className={`ts-sidebar-user ${isCollapsed ? 'justify-center' : ''}`}>
@@ -175,7 +172,7 @@ const Navbar = () => {
                 {!isCollapsed && (
                   <div className="text-left overflow-hidden">
                     <p className="text-sm font-semibold text-slate-200 truncate">{user.name || 'User'}</p>
-                    <p className="text-xs text-slate-400 truncate">{user.role || 'Employee'}</p>
+                    <p className="text-xs text-slate-400 truncate capitalize">{user.role || 'Employee'}</p>
                   </div>
                 )}
               </div>
@@ -206,4 +203,8 @@ const Navbar = () => {
   );
 };
 
+
+
 export default Navbar;
+
+
