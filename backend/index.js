@@ -7,6 +7,9 @@ const cors = require('cors');
 const { Client } = require('pg');
 const db = require('./config/db.config');
 const authRoutes = require('./routes/auth.routes');
+const userRoutes = require('./routes/user.routes');
+const notificationRoutes = require('./routes/notification.routes');
+const employeeRoutes = require('./routes/employee.routes');
 const { notFound, errorHandler } = require('./middleware/error.middleware');
 
 const app = express();
@@ -20,6 +23,9 @@ app.use(express.urlencoded({ extended: true }));
 app.get('/health', (req, res) => res.status(200).json({ status: 'ok' }));
 
 app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
+app.use('/api/notifications', notificationRoutes);
+app.use('/api/employees', employeeRoutes);
 
 app.use(notFound);
 app.use(errorHandler);
@@ -54,6 +60,8 @@ const ensureDatabaseExists = async () => {
 };
 
 const User = require('./model/user.model');
+const Notification = require('./model/notification.model');
+const Employee = require('./model/employee.model');
 
 const ensureAdminUserExists = async () => {
     const adminEmail = process.env.ADMIN_EMAIL || 'admin@talentsphere.ai';

@@ -3,23 +3,8 @@ import { BarChart3 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import './dashboard.css';
 
-const AnalyticsChart = () => {
+const AnalyticsChart = ({ departmentData = [], experienceData = [], loading }) => {
   const [activeTab, setActiveTab] = useState('department');
-
-  const departmentData = [
-    { name: 'Engineering', count: 110, percentage: '45%' },
-    { name: 'Sales', count: 50, percentage: '20%' },
-    { name: 'HR', count: 35, percentage: '14%' },
-    { name: 'Finance', count: 30, percentage: '12%' },
-    { name: 'Design', count: 20, percentage: '9%' },
-  ];
-
-  const experienceData = [
-    { label: '0-2 Years', count: 65, percentage: '26%' },
-    { label: '2-5 Years', count: 95, percentage: '39%' },
-    { label: '5-10 Years', count: 55, percentage: '22%' },
-    { label: '10+ Years', count: 30, percentage: '13%' },
-  ];
 
   return (
     <motion.div
@@ -55,40 +40,53 @@ const AnalyticsChart = () => {
 
       {/* Chart Bars */}
       <div>
-        {activeTab === 'department' ? (
-          departmentData.map((item) => (
-            <div key={item.name} className="ts-progress-row">
-              <div className="ts-progress-label">
-                <span className="text-slate-300">{item.name}</span>
-                <span className="text-cyan-400 font-semibold">{item.count} employees ({item.percentage})</span>
+        {loading ? (
+          <div className="flex flex-col items-center justify-center py-16 gap-2">
+            <div className="w-8 h-8 border-3 border-cyan-500 border-t-transparent rounded-full animate-spin" />
+            <p className="text-xs text-slate-500">Calculating distributions...</p>
+          </div>
+        ) : activeTab === 'department' ? (
+          departmentData.length > 0 ? (
+            departmentData.map((item) => (
+              <div key={item.name} className="ts-progress-row">
+                <div className="ts-progress-label">
+                  <span className="text-slate-300">{item.name}</span>
+                  <span className="text-cyan-400 font-semibold">{item.count} employees ({item.percentage})</span>
+                </div>
+                <div className="ts-progress-bg">
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: item.percentage }}
+                    transition={{ duration: 0.6, ease: "easeOut" }}
+                    className="ts-progress-fill-cyan"
+                  />
+                </div>
               </div>
-              <div className="ts-progress-bg">
-                <motion.div
-                  initial={{ width: 0 }}
-                  animate={{ width: item.percentage }}
-                  transition={{ duration: 0.6, ease: "easeOut" }}
-                  className="ts-progress-fill-cyan"
-                />
-              </div>
-            </div>
-          ))
+            ))
+          ) : (
+            <p className="text-xs text-slate-500 text-center py-10">No department statistics available.</p>
+          )
         ) : (
-          experienceData.map((item) => (
-            <div key={item.label} className="ts-progress-row">
-              <div className="ts-progress-label">
-                <span className="text-slate-300">{item.label}</span>
-                <span className="text-indigo-400 font-semibold">{item.count} employees ({item.percentage})</span>
+          experienceData.length > 0 ? (
+            experienceData.map((item) => (
+              <div key={item.label} className="ts-progress-row">
+                <div className="ts-progress-label">
+                  <span className="text-slate-300">{item.label}</span>
+                  <span className="text-indigo-400 font-semibold">{item.count} employees ({item.percentage})</span>
+                </div>
+                <div className="ts-progress-bg">
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: item.percentage }}
+                    transition={{ duration: 0.6, ease: "easeOut" }}
+                    className="ts-progress-fill-purple"
+                  />
+                </div>
               </div>
-              <div className="ts-progress-bg">
-                <motion.div
-                  initial={{ width: 0 }}
-                  animate={{ width: item.percentage }}
-                  transition={{ duration: 0.6, ease: "easeOut" }}
-                  className="ts-progress-fill-purple"
-                />
-              </div>
-            </div>
-          ))
+            ))
+          ) : (
+            <p className="text-xs text-slate-500 text-center py-10">No experience statistics available.</p>
+          )
         )}
       </div>
     </motion.div>

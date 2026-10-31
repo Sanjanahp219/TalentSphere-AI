@@ -4,6 +4,8 @@ import { AuthProvider } from './AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
+import EmployeeList from './components/Employees/EmployeeList';
+
 import ForgotPassword from './pages/forgetpassword';
 import ResetPassword from './pages/ResetPassword';
 import Navbar from './components/Navbar/navbar';
@@ -67,13 +69,64 @@ function App() {
           <Route path="/unauthorized" element={<Unauthorized />} />
 
           {/* Core Routes */}
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/employees" element={<PageView title="Employees Directory" description="Manage and view company employee workforce profiles." />} />
-          <Route path="/projects" element={<PageView title="Assigned Projects" description="Track project allocation, status, and team assignments." />} />
-          <Route path="/analytics" element={<PageView title="Workforce Analytics" description="AI insights on employee skill distribution and performance." />} />
-          <Route path="/ai-assistant" element={<PageView title="TalentSphere AI Assistant" description="Ask AI for skill recommendations, resume analysis, and job matching." />} />
-          <Route path="/profile" element={<PageView title="User Profile" description="View and update your personal workforce profile and verified skills." />} />
-          <Route path="/settings" element={<PageView title="Account Settings" description="Manage app preferences, notifications, and security settings." />} />
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/employees"
+            element={
+              <ProtectedRoute>
+                <EmployeeList />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/projects"
+            element={
+              <ProtectedRoute>
+                <PageView title="Assigned Projects" description="Track project allocation, status, and team assignments." />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/analytics"
+            element={
+              <ProtectedRoute>
+                <PageView title="Workforce Analytics" description="AI insights on employee skill distribution and performance." />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/ai-assistant"
+            element={
+              <ProtectedRoute>
+                <PageView title="TalentSphere AI Assistant" description="Ask AI for skill recommendations, resume analysis, and job matching." />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <PageView title="User Profile" description="View and update your personal workforce profile and verified skills." />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/settings"
+            element={
+              <ProtectedRoute>
+                <PageView title="Account Settings" description="Manage app preferences, notifications, and security settings." />
+              </ProtectedRoute>
+            }
+          />
 
           {/* Protected Role-Based Admin Route */}
           <Route
