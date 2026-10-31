@@ -3,13 +3,13 @@ import { Users, FolderKanban, Building2, Sparkles, TrendingUp } from 'lucide-rea
 import { motion } from 'framer-motion';
 import './dashboard.css';
 
-const SummaryCards = () => {
+const SummaryCards = ({ stats, loading }) => {
   const cards = [
     {
       id: 'total-employees',
       title: 'Total Employees',
-      value: '245',
-      change: '+12 this month',
+      value: loading ? '...' : (stats?.totalEmployees ?? 0),
+      change: loading ? '...' : `${stats?.activeEmployees ?? 0} active staff`,
       badgeClass: 'ts-badge-positive',
       icon: Users,
       gradient: 'linear-gradient(135deg, #06b6d4, #3b82f6)',
@@ -18,8 +18,8 @@ const SummaryCards = () => {
     {
       id: 'active-projects',
       title: 'Active Projects',
-      value: '18',
-      change: '4 delivering soon',
+      value: '3',
+      change: '1 completed',
       badgeClass: 'ts-badge-neutral',
       icon: FolderKanban,
       gradient: 'linear-gradient(135deg, #6366f1, #a855f7)',
@@ -28,7 +28,7 @@ const SummaryCards = () => {
     {
       id: 'departments',
       title: 'Departments',
-      value: '7',
+      value: loading ? '...' : (stats?.uniqueDepts ?? 0),
       change: 'Cross-functional',
       badgeClass: 'ts-badge-neutral',
       icon: Building2,
@@ -38,8 +38,8 @@ const SummaryCards = () => {
     {
       id: 'ai-insights',
       title: 'AI Insights',
-      value: '15',
-      change: '15 Need Upskilling',
+      value: loading ? '...' : (stats?.totalEmployees ? Math.ceil(stats.totalEmployees * 0.15) : 0),
+      change: 'Need Upskilling',
       badgeClass: 'ts-badge-alert',
       icon: Sparkles,
       gradient: 'linear-gradient(135deg, #f59e0b, #ea580c)',

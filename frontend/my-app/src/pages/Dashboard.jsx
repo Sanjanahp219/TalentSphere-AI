@@ -1,3 +1,5 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import { useAuth } from '../AuthContext';
 import { Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
@@ -6,7 +8,7 @@ import Header from '../components/Header/Header';
 import SummaryCards from '../components/dashboard/SummaryCards';
 import AnalyticsChart from '../components/dashboard/AnalyticsChart';
 import GraphChart from '../components/dashboard/GraphChart';
-import RecentEmployees from '../components/dashboard/RecentEmployees';
+
 import ActiveProjects from '../components/dashboard/ActiveProjects';
 import RecentActivities from '../components/dashboard/RecentActivities';
 import AIRecommendations from '../components/dashboard/AIRecommendations';
@@ -15,6 +17,24 @@ import '../components/dashboard/dashboard.css';
 
 const Dashboard = () => {
   const { user } = useAuth();
+  const [stats, setStats] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const response = await axios.get('/api/employees/stats');
+        if (response.data.success) {
+          setStats(response.data.data);
+        }
+      } catch (error) {
+        console.error('Error fetching dashboard stats:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchStats();
+  }, []);
 
   return (
     <div className="ts-dashboard-layout bg-grid-white">
@@ -53,18 +73,21 @@ const Dashboard = () => {
         {/* 1. Summary Cards Section */}
         <section>
           <h2 className="ts-section-heading">Key Metrics</h2>
-          <SummaryCards />
+          <SummaryCards stats={stats} loading={loading} />
         </section>
 
         {/* 2. Visual Graph Chart & Department Analytics */}
         <div className="ts-grid-2-equal">
-          <GraphChart />
-          <AnalyticsChart />
+          <GraphChart trendData={stats?.headcountTrend} loading={loading} />
+          <AnalyticsChart 
+            departmentData={stats?.departmentDistribution} 
+            experienceData={stats?.experienceDistribution} 
+            loading={loading} 
+          />
         </div>
 
-        {/* 3. Recent Employees & Active Projects */}
+        {/* 3. Active Projects */}
         <div className="ts-grid-2-equal">
-          <RecentEmployees />
           <ActiveProjects />
         </div>
 

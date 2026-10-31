@@ -1,0 +1,517 @@
+/* ==========================================================================
+   TalentSphere AI – Employee Management Styles (External CSS – 50%)
+   Glassmorphic dark theme matching dashboard design system
+   ========================================================================== */
+
+/* ── Page Container ───────────────────────────────────────────────────────── */
+.emp-page {
+  min-height: 100vh;
+  padding: 2rem 2.5rem;
+  color: #e2e8f0;
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+}
+
+/* ── Page Header ──────────────────────────────────────────────────────────── */
+.emp-page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.emp-page-title {
+  font-size: 2rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #38bdf8, #818cf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -0.03em;
+}
+
+.emp-page-subtitle {
+  font-size: 0.95rem;
+  color: #94a3b8;
+  margin-top: 0.25rem;
+}
+
+/* ── Add Employee Button ──────────────────────────────────────────────────── */
+.btn-open-form {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  border: none;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.35);
+}
+
+.btn-open-form:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(99, 102, 241, 0.5);
+}
+
+/* ── Toolbar (Search + Filters Row) ───────────────────────────────────────── */
+.emp-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 1.75rem;
+}
+
+/* ── Search Input ─────────────────────────────────────────────────────────── */
+.emp-search-wrapper {
+  position: relative;
+  flex: 1;
+  min-width: 220px;
+}
+
+.emp-search-icon {
+  position: absolute;
+  left: 0.85rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #64748b;
+  pointer-events: none;
+}
+
+.emp-search-input {
+  width: 100%;
+  padding: 0.7rem 0.75rem 0.7rem 2.6rem;
+  font-size: 0.88rem;
+  color: #e2e8f0;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(51, 65, 85, 0.5);
+  border-radius: 0.75rem;
+  backdrop-filter: blur(12px);
+  outline: none;
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+.emp-search-input::placeholder {
+  color: #64748b;
+}
+
+.emp-search-input:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+/* ── Filter Selects ───────────────────────────────────────────────────────── */
+.emp-filter-select {
+  padding: 0.7rem 1rem;
+  font-size: 0.88rem;
+  color: #e2e8f0;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(51, 65, 85, 0.5);
+  border-radius: 0.75rem;
+  backdrop-filter: blur(12px);
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  padding-right: 2.25rem;
+  min-width: 160px;
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+.emp-filter-select:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+.emp-filter-select option {
+  background: #0f172a;
+  color: #e2e8f0;
+}
+
+/* ── Clear Filter Button ──────────────────────────────────────────────────── */
+.btn-clear-filter {
+  padding: 0.7rem 1.25rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #f87171;
+  background: rgba(248, 113, 113, 0.08);
+  border: 1px solid rgba(248, 113, 113, 0.25);
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.btn-clear-filter:hover {
+  background: rgba(248, 113, 113, 0.18);
+  border-color: rgba(248, 113, 113, 0.5);
+}
+
+/* ── Employee Table ───────────────────────────────────────────────────────── */
+.emp-table-wrapper {
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(51, 65, 85, 0.5);
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.emp-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.emp-table thead {
+  background: rgba(30, 41, 59, 0.7);
+}
+
+.emp-table th {
+  padding: 0.9rem 1.25rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #94a3b8;
+  text-align: left;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.5);
+}
+
+.emp-table td {
+  padding: 1rem 1.25rem;
+  font-size: 0.9rem;
+  color: #cbd5e1;
+  border-bottom: 1px solid rgba(51, 65, 85, 0.25);
+  vertical-align: middle;
+}
+
+.emp-table tbody tr {
+  transition: background 0.2s;
+}
+
+.emp-table tbody tr:hover {
+  background: rgba(51, 65, 85, 0.2);
+}
+
+.emp-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* ── Employee Name Cell ───────────────────────────────────────────────────── */
+.emp-name-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.emp-avatar {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.emp-avatar-eng { background: linear-gradient(135deg, #6366f1, #818cf8); }
+.emp-avatar-design { background: linear-gradient(135deg, #ec4899, #f472b6); }
+.emp-avatar-hr { background: linear-gradient(135deg, #f59e0b, #fbbf24); }
+.emp-avatar-sales { background: linear-gradient(135deg, #10b981, #34d399); }
+.emp-avatar-marketing { background: linear-gradient(135deg, #f97316, #fb923c); }
+.emp-avatar-it { background: linear-gradient(135deg, #06b6d4, #22d3ee); }
+.emp-avatar-default { background: linear-gradient(135deg, #64748b, #94a3b8); }
+
+.emp-name-text {
+  font-weight: 600;
+  color: #f1f5f9;
+}
+
+/* ── Department & Role Badges ─────────────────────────────────────────────── */
+.emp-badge {
+  display: inline-block;
+  padding: 0.25rem 0.7rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  border-radius: 9999px;
+  white-space: nowrap;
+}
+
+.emp-badge-eng {
+  background: rgba(99, 102, 241, 0.15);
+  color: #a5b4fc;
+  border: 1px solid rgba(99, 102, 241, 0.3);
+}
+
+.emp-badge-design {
+  background: rgba(236, 72, 153, 0.15);
+  color: #f9a8d4;
+  border: 1px solid rgba(236, 72, 153, 0.3);
+}
+
+.emp-badge-hr {
+  background: rgba(245, 158, 11, 0.15);
+  color: #fcd34d;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.emp-badge-sales {
+  background: rgba(16, 185, 129, 0.15);
+  color: #6ee7b7;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.emp-badge-marketing {
+  background: rgba(249, 115, 22, 0.15);
+  color: #fdba74;
+  border: 1px solid rgba(249, 115, 22, 0.3);
+}
+
+.emp-badge-it {
+  background: rgba(6, 182, 212, 0.15);
+  color: #67e8f9;
+  border: 1px solid rgba(6, 182, 212, 0.3);
+}
+
+.emp-badge-default {
+  background: rgba(100, 116, 139, 0.15);
+  color: #cbd5e1;
+  border: 1px solid rgba(100, 116, 139, 0.3);
+}
+
+/* ── Action Buttons (View / Edit / Delete) ────────────────────────────────── */
+.emp-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.emp-action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid rgba(51, 65, 85, 0.5);
+  border-radius: 0.5rem;
+  background: transparent;
+  color: #94a3b8;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.85rem;
+}
+
+.emp-action-btn:hover {
+  background: rgba(51, 65, 85, 0.4);
+  color: #e2e8f0;
+}
+
+.emp-action-btn.view:hover  { color: #38bdf8; border-color: rgba(56, 189, 248, 0.4); }
+.emp-action-btn.edit:hover  { color: #a78bfa; border-color: rgba(167, 139, 250, 0.4); }
+.emp-action-btn.del:hover   { color: #f87171; border-color: rgba(248, 113, 113, 0.4); }
+
+/* ── Empty State ──────────────────────────────────────────────────────────── */
+.emp-empty-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: #64748b;
+}
+
+.emp-empty-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  opacity: 0.4;
+}
+
+.emp-empty-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #94a3b8;
+  margin-bottom: 0.5rem;
+}
+
+.emp-empty-desc {
+  font-size: 0.88rem;
+}
+
+/* ── Add Employee Modal Overlay ───────────────────────────────────────────── */
+.add-employee-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(6px);
+}
+
+.add-employee-form {
+  width: 100%;
+  max-width: 520px;
+  background: rgba(15, 23, 42, 0.92);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(51, 65, 85, 0.5);
+  border-radius: 1.25rem;
+  padding: 2rem 2.25rem;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+}
+
+.add-employee-form h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #38bdf8, #818cf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 1.75rem;
+}
+
+/* ── Form Groups ──────────────────────────────────────────────────────────── */
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #94a3b8;
+  margin-bottom: 0.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  font-size: 0.9rem;
+  color: #e2e8f0;
+  background: rgba(30, 41, 59, 0.6);
+  border: 1px solid rgba(51, 65, 85, 0.5);
+  border-radius: 0.6rem;
+  outline: none;
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+.form-group input::placeholder {
+  color: #475569;
+}
+
+.form-group select option {
+  background: #0f172a;
+  color: #e2e8f0;
+}
+
+/* ── Form Action Buttons ──────────────────────────────────────────────────── */
+.form-actions {
+  display: flex;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+}
+
+.btn-add {
+  flex: 1;
+  padding: 0.75rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #fff;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  border: none;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+}
+
+.btn-add:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 25px rgba(99, 102, 241, 0.45);
+}
+
+.btn-cancel {
+  flex: 1;
+  padding: 0.75rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #94a3b8;
+  background: rgba(51, 65, 85, 0.3);
+  border: 1px solid rgba(51, 65, 85, 0.5);
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-cancel:hover {
+  background: rgba(51, 65, 85, 0.5);
+  color: #e2e8f0;
+}
+
+/* ── Employee Count Badge ─────────────────────────────────────────────────── */
+.emp-count-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.85rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #a5b4fc;
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  border-radius: 9999px;
+}
+
+/* ── Responsive ───────────────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .emp-page {
+    padding: 1.25rem;
+  }
+
+  .emp-page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .emp-toolbar {
+    flex-direction: column;
+  }
+
+  .emp-filter-select {
+    width: 100%;
+    min-width: unset;
+  }
+
+  .emp-search-wrapper {
+    width: 100%;
+  }
+
+  .emp-table-wrapper {
+    overflow-x: auto;
+  }
+
+  .emp-table {
+    min-width: 700px;
+  }
+
+  .add-employee-form {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+}

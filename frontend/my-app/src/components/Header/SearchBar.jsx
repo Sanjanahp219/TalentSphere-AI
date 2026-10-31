@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Search, X } from 'lucide-react';
+import axios from 'axios';
 import './Header.css'
 
 const SearchBar = ({ onSearchResults}) => {
@@ -10,21 +11,16 @@ const SearchBar = ({ onSearchResults}) => {
     const value = e.target.value;
     setSearch(value);
 
-    if (value.trim().length>1) {
-      try{
-        const response = await fetch(`http://localhost:5000/api/users/search?q=${value}`);
-        const result = await response.json();
-        if(result.success && onSearchResults){
-           onSearchResults(result.data);
+    if (value.trim().length > 1) {
+      try {
+        const response = await axios.get(`/api/users/search?q=${value}`);
+        if (response.data.success && onSearchResults) {
+           onSearchResults(response.data.data);
         }
-      }
-        catch(error){
-
+      } catch (error) {
          console.error('Error fetching search results:', error);
-        }      
-      
-    
-  }
+      }      
+    }
   else if(value.trim()===''){
      if (onSearchResults) onSearchResults([]); 
 
